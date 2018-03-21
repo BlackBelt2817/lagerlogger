@@ -1,0 +1,211 @@
+import React, { Component } from 'react';
+import './App.css';
+import BeerImage from './BeerImage';
+import axios from 'axios';
+import { Button } from 'react-bootstrap';
+import BeerName from './BeerName';
+
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      allBeers: null,
+      fullData: null,
+      beer_name: null,
+      image: null,
+      food: null,
+      yeast: null,
+      hops: null,
+      brewed_before: null,
+      brewed_after: null,
+      abv_lt: null,
+      abv_gt : null,
+      ibu_lt: null,
+      ibu_gt: null,
+      ebc_gt: null,
+      ebc_lt: null,
+      malt: null,
+      newbeer_name: null,
+      newFood: null,
+      newYeast: null,
+      newHops: null,
+      brewedOn: null,
+      abv: null,
+      ibu: null,
+      ebc: null,
+      newMalt: null,
+      toBeMapped: null
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.random = this.random.bind(this);
+  }
+
+  handleSubmit() {
+    let url = 'https://api.punkapi.com/v2/beers?';
+    let name, food, yeast, hops, malt;
+    if (this.state.beer_name) {
+      name = this.state.beer_name.split(' ').join('_');
+      url += `beer_name=${name}&`
+    }
+    if (this.state.food) {
+      food = this.state.food.split(' ').join('_');
+      url += `food=${food}&`;
+    }
+    if (this.state.yeast) {
+      yeast = this.state.yeast.split(' ').join('_');
+      url += `yeast=${yeast}&`;
+    }
+    if (this.state.hops) {
+      yeast = this.state.hops.split(' ').join('_');
+      url += `hops=${hops}&`;
+    }
+    if (this.state.malt) {
+      malt = this.state.malt.split(' ').join('_');
+      url += `malt=${malt}&`;
+    }
+    if (this.state.brewed_before) {
+      url += `brewed_before=${this.state.brewed_before}&`;
+    }
+    if (this.state.brewed_after) {
+      url += `brewed_after=${this.state.brewed_after}&`;
+    }
+    if (this.state.abv_lt) {
+      url += `abv_lt=${this.state.abv_lt}&`;
+    }
+    if (this.state.abv_gt) {
+      url += `abv_gt=${this.state.abv_gt}&`;
+    }
+    if (this.state.ebc_lt) {
+      url += `ebc_lt=${this.state.ebc_lt}&`;
+    }
+    if (this.state.ebc_gt) {
+      url += `ebc_gt=${this.state.ebc_gt}&`;
+    }
+    if (this.state.ibu_lt) {
+      url += `ibu_lt=${this.state.ibu_lt}&`;
+    }
+    if (this.state.ibu_gt) {
+      url += `ibu_gt=${this.state.ibu_gt}&`;
+    }
+    console.log("URL RIGHT HERE: ", url);
+    axios.get(url)
+    .then(res => {
+      
+      this.setState({
+        allBeers: res.data
+      });
+    })
+  }
+
+  random() {
+    console.log('RANDOM');
+    axios.get('https://api.punkapi.com/v2/beers/random')
+    .then(res => {
+      console.log(res.data[0]);
+      this.setState({
+      image: res.data[0]["image_url"],
+      altImage: res.data[0]["name"],
+      newbeer_name: res.data[0]["name"],
+      allBeers: null
+    })})
+  }
+
+  componentDidMount() {
+    console.log('DID MOUNT');
+    axios.get('https://api.punkapi.com/v2/beers/random')
+    .then(res => {
+      console.log(res.data[0]);
+      this.setState({
+      image: res.data[0]["image_url"],
+      altImage: res.data[0]["name"],
+      newbeer_name: res.data[0]["name"]
+    })})
+  }
+
+  // componentWillMount() {
+  //   console.log('WILL MOUNT');
+  //   axios.get('https://api.punkapi.com/v2/beers/random')
+  //   .then(res => {
+  //     console.log(res.data[0]);
+  //     this.setState({
+  //     image: res.data[0]["image_url"],
+  //     altImage: res.data[0]["name"],
+  //     beer_name: res.data[0]["name"],
+  //     fullData: res.data
+  //   }, () => console.log(this.state.fullData.length))})
+  // }
+
+  render() {
+    return (
+      <div style={{backgroundImage: `url(${require('../src/beer1.jpeg')})`}} className="App">
+        <h1 className="App-title">Lager Logger</h1>
+        <div>
+          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+            <input id='nameinput' onChange={e => this.setState({beer_name: e.target.value})} placeholder='By Name' className="search" type='text' />
+            <input onChange={e => this.setState({food: e.target.value})} placeholder='Pairs Well With' className="search" type='text' />
+            <input onChange={e => this.setState({abv_lt: e.target.value})} placeholder='Max ABV' className="search" type='text' />
+            <input onChange={e => this.setState({abv_gt: e.target.value})} placeholder='Min ABV' className="search" type='text' />
+          </div>
+          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+            <input onChange={e => this.setState({brewed_before: e.target.value})} placeholder='Before mm-yyyy' className="search" type='text' />
+            <input onChange={e => this.setState({brewed_after: e.target.value})} placeholder='After mm-yyyy' className="search" type='text' />
+            <input onChange={e => this.setState({ibu_lt: e.target.value})} placeholder='Max IBU' className="search" type='text' />
+            <input onChange={e => this.setState({ibu_gt: e.target.value})} placeholder='Min IBU' className="search" type='text' />
+          </div>
+          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+            <input style={{width: 168}} onChange={e => this.setState({hops: e.target.value})} placeholder='Hops Name' className="search" type='text' />
+            <input style={{width: 168}} onChange={e => this.setState({yeast: e.target.value})} placeholder='Yeast Name' className="search" type='text' />
+            <input style={{width: 168}} onChange={e => this.setState({malt: e.target.value})} placeholder='Malt Name' className="search" type='text' />
+            <input onChange={e => this.setState({ebc_lt: e.target.value})} placeholder='Max EBC' className="search" type='text' />
+            <input onChange={e => this.setState({ebc_gt: e.target.value})} placeholder='Min EBC' className="search" type='text' />
+          </div>
+          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+            <Button onClick = {this.handleSubmit} id="submitbutton">Submit</Button>
+            <Button onClick = {this.random} id="submitbutton">Random</Button>
+          </div>
+        </div>
+        <div>
+        {
+          this.state.allBeers ? null :
+            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
+              <BeerImage id='beerpic' alt={this.state.altImage} src={this.state.image} />
+              <div>
+                <div className="beerdata">
+                  <BeerName name={this.state.newbeer_name} alt={this.state.altImage} />
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+          <div className="beerdata">
+          {this.state.allBeers ? this.state.allBeers.map((i) => (
+            <div key={i.name}>
+            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
+            <BeerImage id='beerpic' alt={i.name} src={i.image_url} />
+            <div>
+              <div className="beerdata">
+                <BeerName className="beertitle" name={i.name} perc={i.abv} />
+                <i><h2>{i.tagline}</h2></i>
+                <h3>Pairs well with {i.food_pairing.join(', ')}</h3>
+                <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', fontSize: 24}}>
+                  <span><i>IBU:</i> {i.ibu}</span>
+                  <span><i>EBC:</i> {i.ebc}</span>
+                  <span><i>PH:</i> {i.ph}</span>
+                  <span><i>SRM:</i> {i.srm}</span>
+                </div>
+                <h2>{i.description}</h2>
+                
+              </div>
+            </div>
+          </div>
+            </div>)) : null}
+            
+          </div>
+
+        </div>
+    );
+  }
+}
+
+export default App;

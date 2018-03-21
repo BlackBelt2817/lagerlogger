@@ -1,0 +1,55 @@
+.App {
+  text-align: center;
+}
+
+.App-title {
+  font-size: 2em;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.search {
+  height: 40px;
+  width: 252px;
+  border-radius: 10px;
+  color: black;
+  text-align: center;
+  font-size: 20px;
+}
+
+#searchPar {
+  font-size: 50;
+  color: white;
+  text-decoration: underline;
+}
+
+.info {
+  color: white;
+}
+
+.beerdata {
+  margin-top: 50px;
+  color: white;
+  text-align: center;
+}
+
+.beertitle {
+  font-size: 44px;
+  text-decoration: underline;
+}
+
+#beerpic {
+  max-height:750px;
+  max-width:750px;
+}
+
+#submitbutton {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 200px;
+  height: 50px;
+  border-radius: 2px;
+}
