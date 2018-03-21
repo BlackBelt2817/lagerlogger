@@ -167,8 +167,8 @@ class App extends Component {
     })})
   }
 
-  resetAll() {
-    document.getElementsByClassName('search').reset();
+  resetAll(e) {
+    
   }
 
   // componentWillMount() {
@@ -187,11 +187,11 @@ class App extends Component {
   render() {
     return (
       <div style={{backgroundImage: `url(${require('../src/beer1.jpeg')})`}} className="App">
-        <h1 className="App-title">Lager Logger</h1>
+        <h1 className="App-title"><i>Lager Logger</i></h1>
         <div>
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
             <input onKeyPress={this.handleKeyPress} id='nameinput' onChange={e => this.setState({beer_name: e.target.value})} placeholder='By Name' className="search" type='text' />
-            <input onKeyPress={this.handleKeyPress} onChange={e => this.setState({food: e.target.value})} placeholder='Pairs Well With' className="search" type='text' />
+            <input onKeyPress={this.handleKeyPress} onChange={e => this.setState({food: e.target.value})} value={this.state.food_pairing} placeholder='Pairs Well With' className="search" type='text' />
             <input onKeyPress={this.handleKeyPress} onChange={e => this.setState({abv_lt: e.target.value})} placeholder='Max ABV' className="search" type='text' />
             <input onKeyPress={this.handleKeyPress} onChange={e => this.setState({abv_gt: e.target.value})} placeholder='Min ABV' className="search" type='text' />
           </div>
@@ -209,8 +209,17 @@ class App extends Component {
             <input onKeyPress={this.handleKeyPress} onChange={e => this.setState({ebc_gt: e.target.value})} placeholder='Min EBC' className="search" type='text' />
           </div>
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-            <Button onClick = {this.handleSubmit} id="submitbutton">Submit</Button>
-            <Button onClick = {this.random} id="submitbutton">Random</Button>
+            <Button onClick = {this.handleSubmit} id="submitbutton">
+              <i style={{fontSize: 32}} className="fas fa-beer"></i>
+            </Button>
+            <Button onClick = {this.random} id="submitbutton">
+              <i style={{fontSize: 32}} className="fas fa-question">
+            </i></Button>
+            <Button onClick={() => alert('Form reset still needs to be implemented!')} id="submitbutton">
+              <i style={{fontSize: 32, color: 'red'}} className="fas fa-trash-alt"></i>
+            </Button>
+            <div></div>
+            
           </div>
         </div>
         <div>
