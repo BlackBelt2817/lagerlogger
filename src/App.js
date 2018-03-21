@@ -113,9 +113,14 @@ class App extends Component {
     }
     axios.get(url)
     .then(res => {
-      this.setState({
-        allBeers: res.data
-      });
+      if (res.data.length < 1) {
+        this.random();
+        alert('No Results Found! Here\'s a random beer!');
+      } else {
+        this.setState({
+          allBeers: res.data
+        });
+      }
     })
   }
 
