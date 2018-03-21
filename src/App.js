@@ -213,12 +213,11 @@ class App extends Component {
               <i style={{fontSize: 32}} className="fas fa-beer"></i>
             </Button>
             <Button onClick = {this.random} id="submitbutton">
-              <i style={{fontSize: 32}} className="fas fa-question">
-            </i></Button>
+              <i style={{fontSize: 32}} className="fas fa-question" alt="Random" />
+            </Button>
             {/*<Button onClick={() => alert('Form reset still needs to be implemented!')} id="submitbutton">
               <i style={{fontSize: 32, color: 'red'}} className="fas fa-trash-alt"></i>
             </Button>*/}
-            <div></div>
             
           </div>
         </div>
