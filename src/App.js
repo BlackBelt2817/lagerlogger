@@ -113,6 +113,7 @@ class App extends Component {
     }
     axios.get(url)
     .then(res => {
+      console.log(res.data);
       if (res.data.length < 1) {
         this.random();
         alert('No Results Found! Here\'s a random beer!');
@@ -127,6 +128,7 @@ class App extends Component {
   random() {
     axios.get('https://api.punkapi.com/v2/beers/random')
     .then(res => {
+      console.log(res.data);
       let foods = res.data[0].food_pairing;
       foods = foods.join(', ');
       this.setState({
@@ -154,6 +156,7 @@ class App extends Component {
   componentDidMount() {
     axios.get('https://api.punkapi.com/v2/beers/random')
     .then(res => {
+      console.log(res.data);
       let foods = res.data[0].food_pairing;
       foods = foods.join(', ');
       this.setState({
@@ -191,7 +194,7 @@ class App extends Component {
 
   render() {
     return (
-      <div style={{backgroundImage: `url(${require('../src/beer1.jpeg')})`}} className="App">
+      <div style={{backgroundImage: `url(${require('../src/beer1.jpeg')})`, backgroundRepeat: 'no-repeat', backgroundAttachment: 'fixed'}} className="App">
         <h1 className="App-title"><i>Lager Logger</i></h1>
         <div>
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
@@ -252,7 +255,7 @@ class App extends Component {
           <div className="beerdata">
           {this.state.allBeers ? this.state.allBeers.map((i) => (
             <div key={i.name}>
-            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
+            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginBottom: 25}}>
             <BeerImage id='beerpic' alt={i.name} src={i.image_url} />
             <div>
               <div className="beerdata">
@@ -273,7 +276,6 @@ class App extends Component {
             </div>)) : null}
             
           </div>
-
         </div>
     );
   }
