@@ -42,7 +42,9 @@ class App extends Component {
 
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.random = this.random.bind(this);
+    this.resetAll = this.resetAll.bind(this);
   }
 
   handleSubmit() {
@@ -109,10 +111,8 @@ class App extends Component {
     if (this.state.ibu_gt) {
       url += `ibu_gt=${this.state.ibu_gt}&`;
     }
-    console.log("URL RIGHT HERE: ", url);
     axios.get(url)
     .then(res => {
-      
       this.setState({
         allBeers: res.data
       });
@@ -120,7 +120,6 @@ class App extends Component {
   }
 
   random() {
-    console.log('RANDOM');
     axios.get('https://api.punkapi.com/v2/beers/random')
     .then(res => {
       let foods = res.data[0].food_pairing;
@@ -141,8 +140,13 @@ class App extends Component {
     })})
   }
 
+  handleKeyPress = (e) => {
+    if(e.charCode === 13){
+      this.handleSubmit();
+    }
+  }
+
   componentDidMount() {
-    console.log('DID MOUNT');
     axios.get('https://api.punkapi.com/v2/beers/random')
     .then(res => {
       let foods = res.data[0].food_pairing;
@@ -161,6 +165,10 @@ class App extends Component {
       srm: res.data[0].srm,
       description: res.data[0].description
     })})
+  }
+
+  resetAll() {
+    document.getElementsByClassName('search').reset();
   }
 
   // componentWillMount() {
@@ -182,23 +190,23 @@ class App extends Component {
         <h1 className="App-title">Lager Logger</h1>
         <div>
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-            <input id='nameinput' onChange={e => this.setState({beer_name: e.target.value})} placeholder='By Name' className="search" type='text' />
-            <input onChange={e => this.setState({food: e.target.value})} placeholder='Pairs Well With' className="search" type='text' />
-            <input onChange={e => this.setState({abv_lt: e.target.value})} placeholder='Max ABV' className="search" type='text' />
-            <input onChange={e => this.setState({abv_gt: e.target.value})} placeholder='Min ABV' className="search" type='text' />
+            <input onKeyPress={this.handleKeyPress} id='nameinput' onChange={e => this.setState({beer_name: e.target.value})} placeholder='By Name' className="search" type='text' />
+            <input onKeyPress={this.handleKeyPress} onChange={e => this.setState({food: e.target.value})} placeholder='Pairs Well With' className="search" type='text' />
+            <input onKeyPress={this.handleKeyPress} onChange={e => this.setState({abv_lt: e.target.value})} placeholder='Max ABV' className="search" type='text' />
+            <input onKeyPress={this.handleKeyPress} onChange={e => this.setState({abv_gt: e.target.value})} placeholder='Min ABV' className="search" type='text' />
           </div>
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-            <input onChange={e => this.setState({brewed_before: e.target.value})} placeholder='Before mm-yyyy' className="search" type='text' />
-            <input onChange={e => this.setState({brewed_after: e.target.value})} placeholder='After mm-yyyy' className="search" type='text' />
-            <input onChange={e => this.setState({ibu_lt: e.target.value})} placeholder='Max IBU' className="search" type='text' />
-            <input onChange={e => this.setState({ibu_gt: e.target.value})} placeholder='Min IBU' className="search" type='text' />
+            <input onKeyPress={this.handleKeyPress} onChange={e => this.setState({brewed_before: e.target.value})} placeholder='Before mm-yyyy' className="search" type='text' />
+            <input onKeyPress={this.handleKeyPress} onChange={e => this.setState({brewed_after: e.target.value})} placeholder='After mm-yyyy' className="search" type='text' />
+            <input onKeyPress={this.handleKeyPress} onChange={e => this.setState({ibu_lt: e.target.value})} placeholder='Max IBU' className="search" type='text' />
+            <input onKeyPress={this.handleKeyPress} onChange={e => this.setState({ibu_gt: e.target.value})} placeholder='Min IBU' className="search" type='text' />
           </div>
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-            <input style={{width: 168}} onChange={e => this.setState({hops: e.target.value})} placeholder='Hops Name' className="search" type='text' />
-            <input style={{width: 168}} onChange={e => this.setState({yeast: e.target.value})} placeholder='Yeast Name' className="search" type='text' />
-            <input style={{width: 168}} onChange={e => this.setState({malt: e.target.value})} placeholder='Malt Name' className="search" type='text' />
-            <input onChange={e => this.setState({ebc_lt: e.target.value})} placeholder='Max EBC' className="search" type='text' />
-            <input onChange={e => this.setState({ebc_gt: e.target.value})} placeholder='Min EBC' className="search" type='text' />
+            <input onKeyPress={this.handleKeyPress} style={{width: 168}} onChange={e => this.setState({hops: e.target.value})} placeholder='Hops Name' className="search" type='text' />
+            <input onKeyPress={this.handleKeyPress} style={{width: 168}} onChange={e => this.setState({yeast: e.target.value})} placeholder='Yeast Name' className="search" type='text' />
+            <input onKeyPress={this.handleKeyPress} style={{width: 168}} onChange={e => this.setState({malt: e.target.value})} placeholder='Malt Name' className="search" type='text' />
+            <input onKeyPress={this.handleKeyPress} onChange={e => this.setState({ebc_lt: e.target.value})} placeholder='Max EBC' className="search" type='text' />
+            <input onKeyPress={this.handleKeyPress} onChange={e => this.setState({ebc_gt: e.target.value})} placeholder='Min EBC' className="search" type='text' />
           </div>
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
             <Button onClick = {this.handleSubmit} id="submitbutton">Submit</Button>
