@@ -34,14 +34,36 @@ class App extends Component {
       ibu: null,
       ebc: null,
       newMalt: null,
-      toBeMapped: null
+      toBeMapped: null,
+      ph: null,
+      srm: null,
+      description: null,
+      tag: null,
+
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.random = this.random.bind(this);
   }
 
   handleSubmit() {
-    let url = 'https://api.punkapi.com/v2/beers?';
+    let url = 'https://api.punkapi.com/v2/beers';
+    if (
+      this.state.hops ||
+      this.state.beer_name ||
+      this.state.food ||
+      this.state.yeast ||
+      this.state.malt ||
+      this.state.brewed_before ||
+      this.state.brewed_after ||
+      this.state.abv_gt ||
+      this.state.abv_lt ||
+      this.state.ebc_gt ||
+      this.state.ebc_lt ||
+      this.state.ibu_gt ||
+      this.state.ibu_lt
+      ) {
+      url += '?';
+    }
     let name, food, yeast, hops, malt;
     if (this.state.beer_name) {
       name = this.state.beer_name.split(' ').join('_');
@@ -101,12 +123,21 @@ class App extends Component {
     console.log('RANDOM');
     axios.get('https://api.punkapi.com/v2/beers/random')
     .then(res => {
-      console.log(res.data[0]);
+      let foods = res.data[0].food_pairing;
+      foods = foods.join(', ');
       this.setState({
       image: res.data[0]["image_url"],
       altImage: res.data[0]["name"],
       newbeer_name: res.data[0]["name"],
-      allBeers: null
+      allBeers: null,
+      abv: res.data[0].abv,
+      tag: res.data[0].tagline,
+      newFood: foods,
+      ibu: res.data[0].ibu,
+      ebc: res.data[0].ebc,
+      ph: res.data[0].ph,
+      srm: res.data[0].srm,
+      description: res.data[0].description
     })})
   }
 
@@ -114,11 +145,21 @@ class App extends Component {
     console.log('DID MOUNT');
     axios.get('https://api.punkapi.com/v2/beers/random')
     .then(res => {
-      console.log(res.data[0]);
+      let foods = res.data[0].food_pairing;
+      foods = foods.join(', ');
       this.setState({
       image: res.data[0]["image_url"],
       altImage: res.data[0]["name"],
-      newbeer_name: res.data[0]["name"]
+      newbeer_name: res.data[0]["name"],
+      allBeers: null,
+      abv: res.data[0].abv,
+      tag: res.data[0].tagline,
+      newFood: foods,
+      ibu: res.data[0].ibu,
+      ebc: res.data[0].ebc,
+      ph: res.data[0].ph,
+      srm: res.data[0].srm,
+      description: res.data[0].description
     })})
   }
 
@@ -171,7 +212,16 @@ class App extends Component {
               <BeerImage id='beerpic' alt={this.state.altImage} src={this.state.image} />
               <div>
                 <div className="beerdata">
-                  <BeerName name={this.state.newbeer_name} alt={this.state.altImage} />
+                  <BeerName name={this.state.newbeer_name} alt={this.state.altImage} perc={this.state.abv} />
+                  <i><h2>{this.state.tag}</h2></i>
+                  <h3>Pairs well with {this.state.newFood}</h3>
+                  <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', fontSize: 24}}>
+                    <span><i>IBU:</i> {this.state.ibu}</span>
+                    <span><i>EBC:</i> {this.state.ebc}</span>
+                    <span><i>PH:</i> {this.state.ph}</span>
+                    <span><i>SRM:</i> {this.state.srm}</span>
+                  </div>
+                  <h2>{this.state.description}</h2>
                 </div>
               </div>
             </div>
