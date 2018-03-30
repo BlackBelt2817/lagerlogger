@@ -217,11 +217,11 @@ class App extends Component {
             <input onKeyPress={this.handleKeyPress} onChange={e => this.setState({ebc_gt: e.target.value})} placeholder='Min EBC' className="search" type='text' />
           </div>
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
-            <Button onClick = {this.handleSubmit} id="submitbutton">
-              <i style={{fontSize: 32}} className="fas fa-beer"></i>
-            </Button>
             <Button onClick = {this.random} id="submitbutton">
               <i style={{fontSize: 32}} className="fas fa-question" alt="Random" />
+            </Button>  
+            <Button onClick = {this.handleSubmit} id="submitbutton">
+              <i style={{fontSize: 32}} className="fas fa-beer"></i>
             </Button>
             {/*<Button onClick={() => alert('Form reset still needs to be implemented!')} id="submitbutton">
               <i style={{fontSize: 32, color: 'red'}} className="fas fa-trash-alt"></i>
@@ -274,7 +274,6 @@ class App extends Component {
             </div>
           </div>
             </div>)) : null}
-            
           </div>
         </div>
     );
